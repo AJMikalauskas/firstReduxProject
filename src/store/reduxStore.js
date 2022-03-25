@@ -10,6 +10,12 @@ const initialState = {counter: 0, showCounter: true};
                 // it also keeps the state of other properties the same by just calling on state,
                     // since each reducer method is individual, if no payload is attached, action isn't requried as a param/arg.
                         // Need to assign a constant to the slice to put in 
+
+
+    //createSlice creates identifiers so you don't have to, can be seen by typing counterSlice.actions.
+    //counterSlice.actions. -> shows the 4 reducer method names, creates dispatch action 
+        // counterSlice.actions.toggleCounter() returns an action object of this shape:
+            //{type: 'some auto generated ID'}
 const counterSlice = createSlice({
     name: 'counter',
     initialState: initialState,
@@ -29,13 +35,15 @@ const counterSlice = createSlice({
             // For Payload in reducers methods of redux toolkit
                 // Unlike the other methods, this one needs a payload/action, so it's requried as a param
                     // Like the one's above if action isn't needed, no need to add because these are individual emthods with only what's needed being passed in 
-            state.counter = state.counter + action.amount;
+                        // payload is the preset name from redux toolkit when somethins passed into this when being called, seen in Counter.js
+            state.counter = state.counter + action.payload;
         },
         toggleCounter(state) {
             state.showCounter = !state.showCounter
         }
     }
 });
+
 
 // Reducer Function
 // const counterReducer  = (state = initialState,action) =>
@@ -118,4 +126,8 @@ const store = configureStore({
 // store.dispatch({type: "decrement"});
 
 // Subscriber and action are to be used in other components
+
+// This makes it a simpler call, need to import counterActions into Counter.js
+    // Call dispatch action by counterActions.increment(), counterActions.decrement(), etc... in Counter.js
+export const counterActions = counterSlice.actions;
 export default store;

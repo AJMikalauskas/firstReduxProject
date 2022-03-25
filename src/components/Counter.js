@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import classes from './Counter.module.css';
 import { useSelector, useDispatch, connect } from 'react-redux';
+import { counterActions } from '../store/reduxStore';
 //import counterReducer from "..store/reduxStore"
 
 const Counter = () => {
@@ -16,23 +17,25 @@ const Counter = () => {
   // Attaching payloads to action in the increase by 5 handler
   const incrementHandler = () =>
   {
-    dispatch({type:"increment"});
+    // It's interesting that counterActions.reducerFn() is the only call you need to make, very helpful and simplified
+    dispatch(counterActions.increment());
   }
 
   const decrementHandler = () =>
   {
-    dispatch({type:"decrement"});
+    dispatch(counterActions.decrement());
   }
 
   const incrementByFiveHandler = () =>
   {
-    dispatch({type:"incrementByFive", value: 5})
+    dispatch(counterActions.increaseByFive(5)); // The dispatch action is sent in as {type: "SOME_UNIQUE_ID", payload: 5} -> 
+                                                // change name in reduxStore.js from action.value to action.payload, preset by  redux toolkit 
   }
 
   const toggleCounterHandler = () => {
     //dispatch({type:"increment"});
     //dispatch({type:"decrement"});
-    dispatch({type: 'toggleCounter'})
+    dispatch(counterActions.toggleCounter());
   };
 
   return (
