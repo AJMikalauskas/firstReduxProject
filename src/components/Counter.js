@@ -1,5 +1,6 @@
+import { Component } from 'react';
 import classes from './Counter.module.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, connect } from 'react-redux';
 //import counterReducer from "..store/reduxStore"
 
 const Counter = () => {
@@ -9,8 +10,10 @@ const Counter = () => {
       //useDispatch just gives the ability to be able to dispatch an action with a type to the redux store for a state change to occur
   const dispatch = useDispatch();
   const selector = useSelector(state => state.counter);
+  const showingCounter = useSelector(state => state.showCounter);
 
 // Create 2 functions to use both the dispatched actions of increment and decrement -> connect to buttons via onClick
+  // Attaching payloads to action in the increase by 5 handler
   const incrementHandler = () =>
   {
     dispatch({type:"increment"});
@@ -21,17 +24,24 @@ const Counter = () => {
     dispatch({type:"decrement"});
   }
 
+  const incrementByFiveHandler = () =>
+  {
+    dispatch({type:"incrementByFive", value: 5})
+  }
+
   const toggleCounterHandler = () => {
     //dispatch({type:"increment"});
     //dispatch({type:"decrement"});
+    dispatch({type: 'toggleCounter'})
   };
 
   return (
     <main className={classes.counter}>
       <h1>Redux Counter</h1>
-      <div className={classes.value}>{selector}</div>
+      <div className={classes.value}>{showingCounter && selector}</div>
       <div>
         <button onClick={incrementHandler}>Increment</button>
+        <button onClick={incrementByFiveHandler}>Increment By 5</button>
         <button onClick={decrementHandler}>Decrement</button>
       </div>
       <button onClick={toggleCounterHandler}>Toggle Counter</button>
