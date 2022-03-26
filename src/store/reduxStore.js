@@ -44,6 +44,22 @@ const counterSlice = createSlice({
     }
 });
 
+// Initial State Constant for the user authentication, Same setup as counterSlice
+const initialUserAuthState = { isAuthenticated: false };
+
+const userAuthSlice = createSlice({
+    name: 'userAuthentication',
+    initialState: initialUserAuthState,
+    reducers:  {
+        login(state) {
+            state.isAuthenticated = true;
+        },
+        logout(state) {
+            state.isAuthenticated = false;
+        }
+    }
+})
+
 
 // Reducer Function
 // const counterReducer  = (state = initialState,action) =>
@@ -100,7 +116,10 @@ const counterSlice = createSlice({
 const store = configureStore({
     // React expects back only one reducer, reducer key passed in here combines all even when just calling counterSlice.reducer
         // If Multiple Slices created, pass in an object to the reducer key with key of counter: counterSlice.reducer( creates map of reducers )
-    reducer: counterSlice.reducer
+            // Multiple Slices seen through having both userAuth slice and counterSlice
+    //Single Slice(reducer: counterSlice.reducer), single slice passed in individually, multiple passed into object
+        // I just realized that when you call the reducers property object, in this, you do so by .reducer
+    reducer: { counter: counterSlice.reducer, userAuth: userAuthSlice.reducer}
 });
 // createStore import from redux will not work since multiple reducers are passed in, can work if you use import of combineReducers from redux
     // Simpler fix is just to import { configureStore } from @reduxjs/toolkit -> This is redux toolkit specifically, merges all reducers into 1,
@@ -130,4 +149,5 @@ const store = configureStore({
 // This makes it a simpler call, need to import counterActions into Counter.js
     // Call dispatch action by counterActions.increment(), counterActions.decrement(), etc... in Counter.js
 export const counterActions = counterSlice.actions;
+export const userAuthActions = userAuthSlice.actions;
 export default store;

@@ -10,8 +10,8 @@ const Counter = () => {
     // React instantly sets up subscribe when using selector hook, component updated and automatically reactive and always latest counter
       //useDispatch just gives the ability to be able to dispatch an action with a type to the redux store for a state change to occur
   const dispatch = useDispatch();
-  const selector = useSelector(state => state.counter);
-  const showingCounter = useSelector(state => state.showCounter);
+  const selector = useSelector(counterSlice => counterSlice.counter.counter);
+  const showingCounter = useSelector(counterSlice => counterSlice.counter.showCounter);
 
 // Create 2 functions to use both the dispatched actions of increment and decrement -> connect to buttons via onClick
   // Attaching payloads to action in the increase by 5 handler
